@@ -1,17 +1,12 @@
-MINI SÚPER EITHAN PREMIUM
-Incluye:
-- Dashboard premium con ventas, ganancia, inventario y alertas.
-- Caja/POS con carrito, descuento, métodos de pago, efectivo recibido y cambio.
-- Recibo imprimible.
-- Inventario con código de barras, stock mínimo, costo, venta y margen.
-- Crear/editar productos.
-- Compras y proveedores.
-- Gastos.
-- Clientes.
-- Reportes.
-- Apertura, movimientos y cierre de caja.
-- Escáner de códigos por cámara cuando el navegador lo soporta + búsqueda manual.
-- Respaldo/restauración JSON.
-- Datos guardados localmente en el iPhone.
-- PWA instalable.
-- Portada e iconos de Mini Súper Eithan.
+MINI SÚPER EITHAN V9 PREMIUM
+
+Sube estos archivos a la raíz de la rama main de tu repositorio de GitHub Pages:
+index.html
+eithan-portada.jpg
+icon-192.png
+icon-512.png
+manifest.webmanifest
+sw.js
+README.txt
+
+Incluye: Inicio, Caja/POS, inventario, código de barras, compras, reportes, respaldo/restauración y almacenamiento local.

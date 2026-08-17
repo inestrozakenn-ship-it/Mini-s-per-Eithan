@@ -1,10 +1,10 @@
 {
-  "name": "Mini Súper Eithan Premium",
-  "short_name": "Eithan Premium",
-  "start_url": "./",
+  "name": "Mini Súper Eithan V9 Premium",
+  "short_name": "Eithan V9",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#08101e",
-  "theme_color": "#0b1220",
+  "background_color": "#07101f",
+  "theme_color": "#07101f",
   "icons": [
     {
       "src": "icon-192.png",
