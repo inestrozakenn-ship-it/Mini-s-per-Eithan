@@ -1,4 +1,21 @@
-MINI SÚPER EITHAN V9 PREMIUM COMPLETA
-Esta versión incluye Inicio, Caja/POS, carrito, cobro, Inventario, código de barras, Compras, Reportes, alertas de stock, respaldo/restauración y navegación inferior funcional.
-IMPORTANTE: subir/reemplazar TODOS los archivos en la raíz de main de GitHub Pages.
-Luego esperar la publicación y eliminar/reinstalar el marcador de pantalla de inicio del iPhone para actualizar icono y caché.
+MINI SÚPER EITHAN POS V11
+Archivos listos para GitHub Pages.
+
+1. Sube TODOS los archivos a la raíz del repositorio.
+2. En Settings > Pages, usa Deploy from a branch > main > /(root).
+3. Guarda y espera a que GitHub Pages publique.
+4. Abre el enlace en Safari y usa Compartir > Añadir a pantalla de inicio.
+
+Incluye:
+- Caja/POS
+- Carrito y factura
+- Cobro y cambio
+- Inventario editable
+- Costo, precio y ganancia %
+- Stock y stock mínimo
+- Alertas de stock bajo
+- Búsqueda
+- Escaneo de código de barras cuando el navegador lo soporte
+- Reportes diarios
+- Exportar/importar datos
+- PWA instalable
