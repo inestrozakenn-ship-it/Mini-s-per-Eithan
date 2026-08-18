@@ -1,21 +1,32 @@
-MINI SÚPER EITHAN POS V11
-Archivos listos para GitHub Pages.
+MINI SÚPER EITHAN POS V11.1
+===========================
 
-1. Sube TODOS los archivos a la raíz del repositorio.
-2. En Settings > Pages, usa Deploy from a branch > main > /(root).
-3. Guarda y espera a que GitHub Pages publique.
-4. Abre el enlace en Safari y usa Compartir > Añadir a pantalla de inicio.
+Versión PWA estática lista para GitHub Pages.
 
-Incluye:
-- Caja/POS
-- Carrito y factura
-- Cobro y cambio
-- Inventario editable
-- Costo, precio y ganancia %
-- Stock y stock mínimo
-- Alertas de stock bajo
-- Búsqueda
-- Escaneo de código de barras cuando el navegador lo soporte
-- Reportes diarios
-- Exportar/importar datos
-- PWA instalable
+FUNCIONES ACTIVAS
+- Caja/POS con carrito y cobro en efectivo, transferencia, tarjeta y fiado.
+- Inventario con productos, costo, precio, stock mínimo y edición.
+- Buscador por nombre, categoría y código.
+- Escáner por cámara cuando el navegador soporta BarcodeDetector + entrada manual.
+- Compras, gastos y fiados.
+- Cierre de caja.
+- Reportes de ventas, ganancia y productos más vendidos.
+- Recibos para imprimir y compartir desde el iPhone.
+- Exportación/importación de respaldo JSON.
+- Exportación CSV de ventas.
+- PWA instalable y funcionamiento local mediante localStorage/service worker.
+
+SUBIR A GITHUB PAGES
+1. Extrae este ZIP.
+2. En tu repositorio, entra a Add file > Upload files.
+3. Sube TODO el contenido de esta carpeta (index.html, manifest.webmanifest, sw.js y assets).
+4. Ve a Settings > Pages.
+5. Source: Deploy from a branch.
+6. Branch: main y carpeta /(root).
+7. Save.
+8. Abre la URL de GitHub Pages.
+
+IMPORTANTE
+- En iPhone, la cámara requiere permiso del navegador y normalmente HTTPS (GitHub Pages lo proporciona).
+- Web Bluetooth no está habilitado de forma general en Safari iPhone. La app usa imprimir/compartir del sistema y acepta lectores que actúan como teclado para el campo de código.
+- Los datos se guardan en el navegador del dispositivo. Usa Exportar respaldo periódicamente.
