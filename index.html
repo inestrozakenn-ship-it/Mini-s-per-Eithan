@@ -1,21 +1,136 @@
 <!doctype html>
-<html lang="es"><head>
+<html lang="es">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07101f">
+<meta name="theme-color" content="#081326">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
 <title>Mini Súper Eithan Premium</title>
 <style>
-body{margin:0;background:#07101f;color:white;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-align:center}
-main{max-width:900px;margin:auto;padding:18px}.logo{width:92px;height:92px;border-radius:22px;object-fit:cover}.hero{width:100%;border-radius:24px;display:block;margin:18px auto}.box{background:#101b2f;border:1px solid #30435f;border-radius:20px;padding:20px;margin:18px 0}
-</style></head>
-<body><main>
-<img class="logo" src="icon-192.png" alt="Eithan">
-<h1>Mini Súper Eithan Premium</h1>
-<p>¡Siempre cerca de ti!</p>
-<img class="hero" src="eithan-portada.jpg" alt="Pulpería Eithan">
-<div class="box"><h2>V9 Premium</h2><p>Icono y portada actualizados con la imagen oficial de Pulpería Eithan.</p></div>
-</main></body></html>
+:root{--bg:#071224;--panel:#111e33;--panel2:#172640;--line:#2a3d5d;--txt:#f6f8ff;--muted:#91a1bb;--blue:#2d70ef;--green:#22c968;--red:#e83b45;--gold:#ffb51b}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#071224,#0b1527);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:1100px;margin:auto;padding-bottom:88px}
+header{position:sticky;top:0;z-index:20;background:rgba(7,18,36,.96);backdrop-filter:blur(15px);border-bottom:1px solid var(--line);padding:12px 16px}.head{display:flex;align-items:center;gap:12px}.head img{width:70px;height:70px;object-fit:cover;border-radius:18px}.head h1{font-size:24px;margin:0}.head p{margin:2px 0;color:var(--muted)}
+main{padding:16px}.view{display:none}.view.active{display:block}.hero{width:100%;max-height:390px;object-fit:cover;border-radius:24px;border:1px solid var(--line);display:block}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}.stat,.panel{background:linear-gradient(145deg,var(--panel),#0e192b);border:1px solid var(--line);border-radius:20px;padding:16px}.stat small{color:var(--muted)}.stat b{display:block;font-size:25px;margin-top:5px}.green{color:var(--green)}.redtxt{color:#ff777d}.gold{color:var(--gold)}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}.search,input,select{background:#0b172a;color:var(--txt);border:1px solid var(--line);border-radius:13px;padding:13px;outline:none}.search{flex:1;min-width:220px}.btn{background:var(--blue);color:white;border:0;border-radius:13px;padding:13px 16px;font-weight:800}.btn.green{background:#159b51;color:#fff}.btn.red{background:#b82732;color:#fff}.btn.gold{background:#b67800;color:#fff}.btn.dark{background:var(--panel2)}
+.tabs{display:flex;gap:8px;overflow:auto}.tab{border:1px solid var(--line);background:var(--panel);color:#bac5d7;border-radius:999px;padding:10px 15px;white-space:nowrap}.tab.on{background:var(--blue);color:white}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;margin-top:14px}.product{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden}.product .pic{height:180px;background:#fff;display:grid;place-items:center;font-size:72px}.product .body{padding:13px}.product h3{margin:0 0 5px;font-size:18px}.code{color:#70a5ff;font-size:13px}.stock{color:#32d579;margin:5px 0}.price{font-size:25px;color:#70a8ff;font-weight:900}.row{display:flex;align-items:center;justify-content:space-between;gap:8px}.plus{width:45px;height:45px;border-radius:50%;background:var(--blue);color:#fff;font-size:28px;border:0}
+.form{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.field input,.field select{width:100%}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}.empty{text-align:center;padding:35px;color:var(--muted)}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(10,22,40,.98);border-top:1px solid var(--line);z-index:30}.nav{max-width:1100px;margin:auto;display:grid;grid-template-columns:repeat(6,1fr)}.nav button{background:none;color:#8190a7;border:0;padding:8px 3px;font-size:11px}.nav button.on{color:#fff}.nav i{display:block;font-style:normal;font-size:22px;margin-bottom:2px}
+.cart{position:fixed;right:16px;bottom:82px;z-index:29;background:var(--blue);padding:13px 17px;border-radius:30px;font-weight:800;display:none}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr}.product .pic{height:155px}.head h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="head"><img src="icon-192.png"><div><h1>Mini Súper Eithan</h1><p>Premium · ¡Siempre cerca de ti!</p></div></div></header>
+<main>
+
+<section id="inicio" class="view active">
+<img class="hero" src="eithan-portada.jpg">
+<div class="stats">
+<div class="stat"><small>Ventas hoy</small><b id="sToday">L 0.00</b></div>
+<div class="stat"><small>Ganancia hoy</small><b id="pToday" class="green">L 0.00</b></div>
+<div class="stat"><small>Productos</small><b id="nProd" class="gold">0</b></div>
+<div class="stat"><small>Stock bajo</small><b id="low" class="redtxt">0</b></div>
+</div>
+<div class="panel"><h2>⚡ Acciones rápidas</h2><div class="toolbar">
+<button class="btn" onclick="go('caja')">🧾 Nueva venta</button>
+<button class="btn green" onclick="go('inventario')">➕ Producto</button>
+<button class="btn gold" onclick="go('compras')">📦 Compra</button>
+<button class="btn dark" onclick="go('reportes')">📊 Reportes</button>
+</div></div>
+</section>
+
+<section id="caja" class="view">
+<h2>🧾 Caja / Punto de venta</h2>
+<div class="panel">
+<div class="toolbar"><input id="qSale" class="search" placeholder="Buscar producto o código de barras…" oninput="renderSale()"><button class="btn" onclick="scan()">▣ Escanear</button></div>
+<div id="saleGrid" class="grid"></div>
+</div>
+<div class="panel"><h3>🛒 Venta actual</h3><div id="cart"></div><div class="row" style="margin-top:12px"><b>Total</b><b id="total" style="font-size:30px">L 0.00</b></div><div class="toolbar"><button class="btn green" onclick="charge()">Cobrar</button><button class="btn red" onclick="clearCart()">Vaciar</button></div></div>
+</section>
+
+<section id="inventario" class="view">
+<h2>📦 Inventario</h2>
+<div class="panel"><h3>Nuevo producto</h3><div class="form">
+<div class="field"><label>Nombre</label><input id="name"></div>
+<div class="field"><label>Código de barras</label><input id="code" inputmode="numeric"></div>
+<div class="field"><label>Categoría</label><select id="cat"><option>Abarrotes</option><option>Limpieza</option><option>Lácteos</option><option>Carnes</option><option>Arroz y granos</option><option>Snacks</option><option>Bebidas</option><option>Otros</option></select></div>
+<div class="field"><label>Costo L</label><input id="cost" type="number" step=".01"></div>
+<div class="field"><label>Precio L</label><input id="price" type="number" step=".01"></div>
+<div class="field"><label>Stock</label><input id="stock" type="number"></div>
+<div class="field"><label>Stock mínimo</label><input id="min" type="number" value="5"></div>
+<div class="field"><label>Imagen URL opcional</label><input id="img"></div>
+</div><div class="toolbar"><button class="btn green" onclick="addProduct()">Guardar producto</button><button class="btn dark" onclick="backup()">💾 Respaldo</button><button class="btn dark" onclick="restore()">↥ Restaurar</button></div></div>
+<div class="toolbar"><input id="qInv" class="search" placeholder="Buscar inventario…" oninput="renderInv()"></div>
+<div class="panel tablewrap" id="invTable"></div>
+</section>
+
+<section id="compras" class="view">
+<h2>🚚 Compras</h2><div class="panel"><div class="form">
+<div class="field"><label>Proveedor</label><input id="supplier"></div><div class="field"><label>Producto</label><input id="buyProduct"></div><div class="field"><label>Cantidad</label><input id="qty" type="number" value="1"></div><div class="field"><label>Costo unitario L</label><input id="buyCost" type="number" step=".01"></div>
+</div><div class="toolbar"><button class="btn gold" onclick="buy()">Registrar compra</button></div></div><div class="panel tablewrap" id="buyTable"></div>
+</section>
+
+<section id="reportes" class="view">
+<h2>📊 Reportes</h2><div class="stats">
+<div class="stat"><small>Ventas totales</small><b id="rSales">L 0.00</b></div><div class="stat"><small>Ganancia</small><b id="rProfit" class="green">L 0.00</b></div><div class="stat"><small>Unidades vendidas</small><b id="rUnits">0</b></div><div class="stat"><small>Inventario a costo</small><b id="rInv">L 0.00</b></div>
+</div><div class="panel tablewrap"><h3>Historial de ventas</h3><div id="salesTable"></div></div>
+</section>
+
+<section id="mas" class="view">
+<h2>••• Más</h2><div class="panel"><h3>⚙️ Herramientas</h3><div class="toolbar"><button class="btn dark" onclick="window.print()">🖨️ Imprimir</button><button class="btn dark" onclick="backup()">💾 Respaldar datos</button><button class="btn red" onclick="resetAll()">⚠️ Borrar datos</button></div><p style="color:var(--muted)">Los datos se guardan en este dispositivo. Usa respaldo antes de cambiar de teléfono o navegador.</p></div></section>
+</main>
+</div>
+
+<div class="cart" id="cartFloat" onclick="go('caja')">🛒 <span id="cc">0</span> · <span id="ct">L 0.00</span></div>
+<footer class="bottom"><nav class="nav">
+<button id="n-inicio" class="on" onclick="go('inicio')"><i>🏠</i>Inicio</button>
+<button id="n-caja" onclick="go('caja')"><i>🧾</i>Caja</button>
+<button id="n-inventario" onclick="go('inventario')"><i>📦</i>Inventario</button>
+<button id="n-compras" onclick="go('compras')"><i>🚚</i>Compras</button>
+<button id="n-reportes" onclick="go('reportes')"><i>📊</i>Reportes</button>
+<button id="n-mas" onclick="go('mas')"><i>•••</i>Más</button>
+</nav></footer>
+
+<script>
+const KEY='EITHAN_V9_PREMIUM_FULL';
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{products:[
+{id:1,name:'Arina Doña Blanca',code:'7501000111005',cat:'Abarrotes',cost:10,price:13,stock:23,min:5,img:''},
+{id:2,name:'Arina Gold Star',code:'7421000105008',cat:'Abarrotes',cost:9,price:12,stock:13,min:5,img:''},
+{id:3,name:'Arroz Manhattan',code:'7421000203001',cat:'Arroz y granos',cost:12,price:16,stock:25,min:5,img:''},
+{id:4,name:'Arroz Progreso 1LB',code:'7421000201007',cat:'Arroz y granos',cost:12,price:16,stock:30,min:5,img:''},
+{id:5,name:'Jabón líquido',code:'0000000000005',cat:'Limpieza',cost:15,price:20,stock:8,min:3,img:''},
+{id:6,name:'Salsa de tomate',code:'0000000000006',cat:'Abarrotes',cost:12,price:17,stock:9,min:3,img:''},
+{id:7,name:'Leche',code:'0000000000007',cat:'Lácteos',cost:20,price:25,stock:10,min:3,img:''},
+{id:8,name:'Papas clásicas',code:'0000000000008',cat:'Snacks',cost:12,price:18,stock:12,min:3,img:''}
+],sales:[],purchases:[]};
+let cart=[];
+const $=id=>document.getElementById(id), money=n=>'L '+Number(n||0).toFixed(2);
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function go(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('on'));$('n-'+id).classList.add('on');renderAll();scrollTo(0,0)}
+function stats(){let d=new Date().toISOString().slice(0,10),s=db.sales.filter(x=>x.date.slice(0,10)==d);let v=s.reduce((a,x)=>a+x.total,0),p=s.reduce((a,x)=>a+x.profit,0);$('sToday').textContent=money(v);$('pToday').textContent=money(p);$('nProd').textContent=db.products.length;$('low').textContent=db.products.filter(x=>x.stock<=x.min).length;let V=db.sales.reduce((a,x)=>a+x.total,0),P=db.sales.reduce((a,x)=>a+x.profit,0),U=db.sales.reduce((a,x)=>a+x.items.reduce((q,i)=>q+i.qty,0),0),I=db.products.reduce((a,x)=>a+x.cost*x.stock,0);$('rSales').textContent=money(V);$('rProfit').textContent=money(P);$('rUnits').textContent=U;$('rInv').textContent=money(I);let C=cart.reduce((a,x)=>a+x.qty,0),T=cart.reduce((a,x)=>a+x.price*x.qty,0);$('cc').textContent=C;$('ct').textContent=money(T);$('cartFloat').style.display=C?'block':'none'}
+function pic(p){return p.img?`<img src="${p.img}" style="width:100%;height:100%;object-fit:contain" onerror="this.outerHTML='🛒'">`:'🛒'}
+function card(p){return `<article class="product"><div class="pic">${pic(p)}</div><div class="body"><h3>${p.name}</h3><div class="code">Código: ${p.code||'—'}</div><div class="stock">Stock: ${p.stock} uds.</div><div class="row"><b class="price">${money(p.price)}</b><button class="plus" onclick="add(${p.id})">+</button></div></div></article>`}
+function renderSale(){let q=($('qSale').value||'').toLowerCase();$('saleGrid').innerHTML=db.products.filter(p=>p.stock>0&&(p.name+' '+p.code).toLowerCase().includes(q)).map(card).join('')||'<div class="empty">Producto no encontrado.</div>'}
+function renderCart(){let t=cart.reduce((a,x)=>a+x.price*x.qty,0);$('total').textContent=money(t);$('cart').innerHTML=cart.length?`<table class="table"><tr><th>Producto</th><th>Cant.</th><th>Total</th><th></th></tr>${cart.map((x,i)=>`<tr><td>${x.name}</td><td>${x.qty}</td><td>${money(x.price*x.qty)}</td><td><button class="btn red" onclick="remove(${i})">×</button></td></tr>`).join('')}</table>`:'<div class="empty">Agrega productos a la venta.</div>'}
+function add(id){let p=db.products.find(x=>x.id==id);if(!p||p.stock<1)return;let x=cart.find(x=>x.id==id);if(x){if(x.qty<p.stock)x.qty++}else cart.push({id:p.id,name:p.name,price:p.price,cost:p.cost,qty:1});renderCart();stats()}
+function remove(i){cart.splice(i,1);renderCart();stats()}function clearCart(){cart=[];renderCart();stats()}
+function charge(){if(!cart.length)return alert('Agrega productos.');let total=cart.reduce((a,x)=>a+x.price*x.qty,0),profit=cart.reduce((a,x)=>a+(x.price-x.cost)*x.qty,0);cart.forEach(x=>db.products.find(p=>p.id==x.id).stock-=x.qty);db.sales.push({date:new Date().toISOString(),total,profit,items:JSON.parse(JSON.stringify(cart))});cart=[];save();alert('✅ Venta registrada: '+money(total))}
+function addProduct(){let n=$('name').value.trim();if(!n)return alert('Escribe el nombre.');db.products.push({id:Date.now(),name:n,code:$('code').value.trim()||String(Date.now()).slice(-12),cat:$('cat').value,cost:+$('cost').value||0,price:+$('price').value||0,stock:+$('stock').value||0,min:+$('min').value||0,img:$('img').value.trim()});save();['name','code','cost','price','stock','min','img'].forEach(id=>$(id).value='');alert('Producto guardado.')}
+function renderInv(){let q=($('qInv').value||'').toLowerCase(),ps=db.products.filter(p=>(p.name+' '+p.code+' '+p.cat).toLowerCase().includes(q));$('invTable').innerHTML='<table class="table"><tr><th>Producto</th><th>Código</th><th>Stock</th><th>Costo</th><th>Venta</th><th></th></tr>'+ps.map(p=>`<tr><td>${p.name}</td><td>${p.code}</td><td class="${p.stock<=p.min?'redtxt':'green'}">${p.stock}</td><td>${money(p.cost)}</td><td>${money(p.price)}</td><td><button class="btn dark" onclick="changeStock(${p.id})">Stock</button></td></tr>`).join('')+'</table>'}
+function changeStock(id){let p=db.products.find(x=>x.id==id),n=prompt('Nuevo stock de '+p.name,p.stock);if(n!==null){p.stock=Math.max(0,Number(n)||0);save()}}
+function buy(){let s=$('supplier').value.trim(),n=$('buyProduct').value.trim(),q=+$('qty').value||0,c=+$('buyCost').value||0;if(!s||!n||q<=0)return alert('Completa los datos.');db.purchases.push({date:new Date().toISOString(),supplier:s,product:n,qty:q,total:q*c});let p=db.products.find(x=>x.name.toLowerCase()==n.toLowerCase());if(p){p.stock+=q;p.cost=c||p.cost}save();$('supplier').value=$('buyProduct').value='';$('qty').value=1;$('buyCost').value='';alert('Compra registrada.')}
+function renderBuys(){$('buyTable').innerHTML=db.purchases.length?'<table class="table"><tr><th>Fecha</th><th>Proveedor</th><th>Producto</th><th>Cant.</th><th>Total</th></tr>'+db.purchases.slice().reverse().map(x=>`<tr><td>${new Date(x.date).toLocaleString()}</td><td>${x.supplier}</td><td>${x.product}</td><td>${x.qty}</td><td>${money(x.total)}</td></tr>`).join('')+'</table>':'<div class="empty">Sin compras todavía.</div>'}
+function renderSales(){$('salesTable').innerHTML=db.sales.length?'<table class="table"><tr><th>Fecha</th><th>Unidades</th><th>Venta</th><th>Ganancia</th></tr>'+db.sales.slice().reverse().map(x=>`<tr><td>${new Date(x.date).toLocaleString()}</td><td>${x.items.reduce((a,i)=>a+i.qty,0)}</td><td>${money(x.total)}</td><td class="green">${money(x.profit)}</td></tr>`).join('')+'</table>':'<div class="empty">Sin ventas todavía.</div>'}
+function backup(){let b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Eithan_V9_respaldo.json';a.click()}
+function restore(){let i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=()=>{let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();alert('Respaldo restaurado.')}catch(e){alert('Archivo inválido')}};r.readAsText(i.files[0])};i.click()}
+function resetAll(){if(confirm('Esto borrará productos, ventas y compras guardados en este dispositivo. ¿Continuar?')){localStorage.removeItem(KEY);location.reload()}}
+async function scan(){if(!('BarcodeDetector'in window)){let c=prompt('Escribe el código de barras:');if(c){$('qSale').value=c;renderSale()}return}try{let d=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','code_128','code_39']});let st=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}),v=document.createElement('video');v.srcObject=st;await v.play();Object.assign(v.style,{position:'fixed',inset:'10%',width:'80%',height:'60%',zIndex:99,background:'#000',objectFit:'contain'});document.body.append(v);let t=setInterval(async()=>{let a=await d.detect(v);if(a.length){clearInterval(t);st.getTracks().forEach(x=>x.stop());v.remove();$('qSale').value=a[0].rawValue;renderSale()}},300)}catch(e){alert('No se pudo abrir la cámara. Puedes escribir el código manualmente.')}}
+function renderAll(){stats();renderSale();renderCart();renderInv();renderBuys();renderSales()}
+renderAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body></html>
