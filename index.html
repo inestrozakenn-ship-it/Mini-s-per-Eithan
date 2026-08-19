@@ -1,1 +1,1267 @@
 
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08152b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mini Súper Eithan">
+<title>Mini Súper Eithan POS</title>
+
+<style>
+*{box-sizing:border-box}
+:root{
+ --bg:#07152b;
+ --panel:#0d2340;
+ --panel2:#102c4d;
+ --text:#fff;
+ --muted:#9fb1c8;
+ --primary:#1597ff;
+ --green:#16c784;
+ --red:#ff4d5e;
+ --yellow:#ffca28;
+ --border:#234463;
+}
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+ padding-bottom:82px;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.top{
+ position:sticky;
+ top:0;
+ z-index:10;
+ background:rgba(7,21,43,.97);
+ backdrop-filter:blur(12px);
+ padding:15px;
+ border-bottom:1px solid var(--border);
+}
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px;
+}
+.logo{
+ width:48px;
+ height:48px;
+ border-radius:14px;
+ background:linear-gradient(135deg,#d72828,#8f1111);
+ border:3px solid #e7c35b;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:900;
+ font-size:20px;
+}
+.brand h1{font-size:19px;margin:0}
+.brand small{color:var(--muted)}
+.page{padding:15px;max-width:900px;margin:auto}
+h2{margin:5px 0 15px}
+h3{margin-top:0}
+.card{
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:15px;
+ margin-bottom:14px;
+ box-shadow:0 5px 20px rgba(0,0,0,.18);
+}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+}
+@media(min-width:700px){
+ .grid{grid-template-columns:repeat(4,1fr)}
+}
+.stat{
+ padding:15px;
+ border-radius:16px;
+ background:var(--panel2);
+ border:1px solid var(--border);
+}
+.stat b{display:block;font-size:21px;margin-top:5px}
+.stat span{color:var(--muted);font-size:12px}
+.btn{
+ border:0;
+ border-radius:12px;
+ padding:12px 15px;
+ color:white;
+ background:var(--primary);
+ font-weight:700;
+}
+.btn.green{background:var(--green);color:#061b12}
+.btn.red{background:var(--red)}
+.btn.yellow{background:var(--yellow);color:#211900}
+.btn.dark{background:#193552}
+.btn.full{width:100%}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1}
+input,select,textarea{
+ width:100%;
+ background:#081a31;
+ color:white;
+ border:1px solid var(--border);
+ border-radius:11px;
+ padding:12px;
+ outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--primary)}
+label{
+ display:block;
+ color:var(--muted);
+ font-size:13px;
+ margin:10px 0 5px;
+}
+.product{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ padding:13px 0;
+ border-bottom:1px solid var(--border);
+}
+.product:last-child{border-bottom:0}
+.product-name{font-weight:700}
+.product-meta{font-size:12px;color:var(--muted);margin-top:3px}
+.price{font-weight:800;color:#66d9ff}
+.badge{
+ display:inline-block;
+ padding:4px 8px;
+ border-radius:99px;
+ font-size:11px;
+ background:#193b5c;
+ color:#b9dcff;
+}
+.low{color:#ffca28}
+.empty{
+ text-align:center;
+ padding:30px 10px;
+ color:var(--muted);
+}
+.bottom{
+ position:fixed;
+ bottom:0;
+ left:0;
+ right:0;
+ z-index:20;
+ background:rgba(8,20,38,.98);
+ border-top:1px solid var(--border);
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ padding:7px 5px env(safe-area-inset-bottom);
+}
+.bottom button{
+ background:none;
+ color:#91a4bc;
+ border:0;
+ padding:7px 2px;
+ font-size:11px;
+}
+.bottom button.active{color:#45b7ff}
+.bottom i{display:block;font-style:normal;font-size:20px;margin-bottom:2px}
+.modal{
+ position:fixed;
+ inset:0;
+ z-index:50;
+ background:rgba(0,0,0,.72);
+ display:none;
+ align-items:flex-end;
+}
+.modal.show{display:flex}
+.sheet{
+ width:100%;
+ max-height:92vh;
+ overflow:auto;
+ background:var(--panel);
+ border-radius:24px 24px 0 0;
+ padding:20px;
+ border-top:1px solid var(--border);
+}
+.toast{
+ position:fixed;
+ z-index:100;
+ top:75px;
+ left:50%;
+ transform:translateX(-50%) translateY(-20px);
+ background:#162f4d;
+ border:1px solid var(--border);
+ padding:12px 18px;
+ border-radius:99px;
+ opacity:0;
+ pointer-events:none;
+ transition:.25s;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px;border-bottom:1px solid var(--border)}
+.right{text-align:right}
+.big-total{
+ font-size:30px;
+ font-weight:900;
+ text-align:right;
+ margin:12px 0;
+}
+.qty{
+ display:flex;
+ align-items:center;
+ gap:6px;
+}
+.qty button{
+ width:34px;
+ height:34px;
+ border:0;
+ border-radius:9px;
+ background:#193b5c;
+ color:white;
+ font-size:18px;
+}
+.search{
+ position:sticky;
+ top:82px;
+ z-index:5;
+ margin-bottom:12px;
+}
+.notice{
+ padding:12px;
+ border-radius:12px;
+ background:#102f4e;
+ color:#bfe4ff;
+ font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<header class="top">
+ <div class="brand">
+  <div class="logo">E</div>
+  <div>
+   <h1>MINI SÚPER EITHAN</h1>
+   <small id="businessSub">Punto de Venta</small>
+  </div>
+ </div>
+</header>
+
+<main id="app" class="page"></main>
+
+<nav class="bottom">
+ <button data-route="home"><i>🏠</i>Inicio</button>
+ <button data-route="pos"><i>🛒</i>Vender</button>
+ <button data-route="inventory"><i>📦</i>Inventario</button>
+ <button data-route="more"><i>☰</i>Más</button>
+</nav>
+
+<div id="modal" class="modal">
+ <div id="sheet" class="sheet"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+"use strict";
+
+const KEY="eithan_pos_v12";
+
+const seed=[
+ {id:"p1",name:"Harina Doña Blanca",cat:"Abarrotes",cost:18,sale:23,stock:20,min:5,barcode:""},
+ {id:"p2",name:"Harina Gold Star",cat:"Abarrotes",cost:20,sale:25,stock:20,min:5,barcode:""},
+ {id:"p3",name:"Arroz Manhattan",cat:"Granos",cost:28,sale:34,stock:20,min:5,barcode:""},
+ {id:"p4",name:"Arroz Progreso 1 LB",cat:"Granos",cost:18,sale:22,stock:20,min:5,barcode:""},
+ {id:"p5",name:"Azistín Lavanda",cat:"Limpieza",cost:25,sale:32,stock:15,min:4,barcode:""},
+ {id:"p6",name:"BBQ Kraft",cat:"Salsas",cost:35,sale:45,stock:12,min:3,barcode:""},
+ {id:"p7",name:"Cornflakes Fans",cat:"Desayuno",cost:32,sale:40,stock:12,min:3,barcode:""},
+ {id:"p8",name:"Leche Entera 1L",cat:"Lácteos",cost:30,sale:38,stock:15,min:4,barcode:""}
+];
+
+function fresh(){
+ return {
+  products:structuredClone(seed),
+  sales:[],
+  purchases:[],
+  expenses:[],
+  credits:[],
+  settings:{
+   business:"Mini Súper Eithan",
+   phone:"",
+   address:""
+  },
+  cart:[]
+ };
+}
+
+let db;
+try{
+ db=JSON.parse(localStorage.getItem(KEY))||fresh();
+}catch(e){db=fresh()}
+
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(db));
+}
+
+function money(n){
+ return "L "+Number(n||0).toLocaleString("es-HN",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+function id(p="x"){
+ return p+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+}
+
+function today(){
+ return new Date().toISOString().slice(0,10);
+}
+
+function esc(s){
+ return String(s??"").replace(/[&<>"']/g,x=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+ }[x]));
+}
+
+function toast(msg){
+ const t=document.getElementById("toast");
+ t.textContent=msg;
+ t.classList.add("show");
+ setTimeout(()=>t.classList.remove("show"),1800);
+}
+
+function modal(html){
+ document.getElementById("sheet").innerHTML=html;
+ document.getElementById("modal").classList.add("show");
+}
+
+function closeModal(){
+ document.getElementById("modal").classList.remove("show");
+}
+
+document.getElementById("modal").addEventListener("click",e=>{
+ if(e.target.id==="modal")closeModal();
+});
+
+function nav(){
+ return `
+ <div class="card">
+  <h3>Mini Súper Eithan</h3>
+  <div class="grid">
+   <button class="btn" onclick="go('pos')">🛒 Vender</button>
+   <button class="btn green" onclick="go('inventory')">📦 Inventario</button>
+   <button class="btn dark" onclick="go('purchases')">🛍️ Compras</button>
+   <button class="btn dark" onclick="go('reports')">📊 Reportes</button>
+  </div>
+ </div>`;
+}
+
+function go(route){
+ location.hash=route;
+ render();
+ window.scrollTo(0,0);
+}
+
+function totals(){
+ const sales=db.sales.filter(x=>x.date===today());
+ const total=sales.reduce((a,x)=>a+x.total,0);
+ const profit=sales.reduce((a,x)=>a+x.profit,0);
+ return {sales,total,profit};
+}
+
+function home(){
+ const t=totals();
+ const low=db.products.filter(p=>Number(p.stock)<=Number(p.min));
+ return `
+ <h2>Panel principal</h2>
+
+ <div class="grid">
+  <div class="stat"><span>Ventas hoy</span><b>${money(t.total)}</b></div>
+  <div class="stat"><span>Ganancia hoy</span><b>${money(t.profit)}</b></div>
+  <div class="stat"><span>Transacciones</span><b>${t.sales.length}</b></div>
+  <div class="stat"><span>Productos</span><b>${db.products.length}</b></div>
+ </div>
+
+ ${nav()}
+
+ <div class="card">
+  <h3>⚠️ Inventario bajo</h3>
+  ${
+   low.length
+   ? low.map(p=>`
+    <div class="product">
+     <div>
+      <div class="product-name">${esc(p.name)}</div>
+      <div class="product-meta">Stock mínimo: ${p.min}</div>
+     </div>
+     <b class="low">${p.stock} unidades</b>
+    </div>`).join("")
+   : `<div class="empty">Todo el inventario está en buen nivel 👍</div>`
+  }
+ </div>
+
+ <div class="card">
+  <h3>Acciones rápidas</h3>
+  <div class="row">
+   <button class="btn" onclick="productForm()">➕ Producto</button>
+   <button class="btn green" onclick="go('pos')">💰 Nueva venta</button>
+  </div>
+ </div>`;
+}
+
+function pos(){
+ return `
+ <h2>🛒 Punto de venta</h2>
+
+ <div class="search">
+  <input id="posSearch" placeholder="🔎 Buscar producto..." oninput="filterPOS()">
+ </div>
+
+ <div id="posProducts" class="card">
+  ${productCards(db.products)}
+ </div>
+
+ <div id="cartBox"></div>`;
+}
+
+function productCards(products){
+ if(!products.length)return `<div class="empty">No hay productos.</div>`;
+
+ return products.map(p=>`
+ <div class="product">
+  <div style="flex:1">
+   <div class="product-name">${esc(p.name)}</div>
+   <div class="product-meta">
+    ${esc(p.cat)} · Stock: ${p.stock}
+   </div>
+   <div class="price">${money(p.sale)}</div>
+  </div>
+  <button class="btn" onclick="addCart('${p.id}')">Agregar</button>
+ </div>`).join("");
+}
+
+function filterPOS(){
+ const q=(document.getElementById("posSearch")?.value||"").toLowerCase();
+ document.getElementById("posProducts").innerHTML=
+  `<div>${productCards(db.products.filter(p=>
+   p.name.toLowerCase().includes(q)||
+   p.cat.toLowerCase().includes(q)||
+   String(p.barcode||"").includes(q)
+  ))}</div>`;
+}
+
+function addCart(pid){
+ const p=db.products.find(x=>x.id===pid);
+ if(!p||p.stock<=0)return toast("Producto agotado");
+
+ const item=db.cart.find(x=>x.id===pid);
+
+ if(item){
+  if(item.qty>=p.stock)return toast("No hay más existencias");
+  item.qty++;
+ }else{
+  db.cart.push({id:pid,qty:1});
+ }
+
+ save();
+ render();
+}
+
+function changeQty(pid,d){
+ const item=db.cart.find(x=>x.id===pid);
+ const p=db.products.find(x=>x.id===pid);
+ if(!item||!p)return;
+
+ item.qty+=d;
+
+ if(item.qty<=0)db.cart=db.cart.filter(x=>x.id!==pid);
+ if(item.qty>p.stock)item.qty=p.stock;
+
+ save();
+ render();
+}
+
+function cartBox(){
+ const items=db.cart.map(i=>{
+  const p=db.products.find(x=>x.id===i.id);
+  return p?{...p,qty:i.qty}:null;
+ }).filter(Boolean);
+
+ if(!items.length)return `
+ <div class="card">
+  <div class="empty">🛒 El carrito está vacío</div>
+ </div>`;
+
+ const subtotal=items.reduce((a,x)=>a+x.sale*x.qty,0);
+
+ return `
+ <div class="card">
+  <h3>🧾 Venta actual</h3>
+
+  ${items.map(x=>`
+   <div class="product">
+    <div style="flex:1">
+     <div class="product-name">${esc(x.name)}</div>
+     <div class="product-meta">${money(x.sale)} × ${x.qty}</div>
+    </div>
+    <div class="qty">
+     <button onclick="changeQty('${x.id}',-1)">−</button>
+     <b>${x.qty}</b>
+     <button onclick="changeQty('${x.id}',1)">+</button>
+    </div>
+   </div>
+  `).join("")}
+
+  <div class="big-total">${money(subtotal)}</div>
+
+  <button class="btn green full" onclick="checkout()">
+   💵 COBRAR
+  </button>
+
+  <button class="btn dark full" style="margin-top:8px" onclick="db.cart=[];save();render()">
+   Vaciar carrito
+  </button>
+ </div>`;
+}
+
+function checkout(){
+ if(!db.cart.length)return toast("El carrito está vacío");
+
+ const items=db.cart.map(i=>{
+  const p=db.products.find(x=>x.id===i.id);
+  return {p,qty:i.qty};
+ }).filter(x=>x.p);
+
+ const total=items.reduce((a,x)=>a+x.p.sale*x.qty,0);
+
+ modal(`
+  <h2>💵 Cobrar venta</h2>
+  <div class="card">
+   <div style="color:var(--muted)">Total</div>
+   <div class="big-total">${money(total)}</div>
+  </div>
+
+  <label>Método de pago</label>
+  <select id="payMethod">
+   <option>Efectivo</option>
+   <option>Transferencia</option>
+   <option>Tarjeta</option>
+  </select>
+
+  <label>Recibido</label>
+  <input id="received" type="number" inputmode="decimal" value="${total}" oninput="calcChange(${total})">
+
+  <div class="card" style="margin-top:12px">
+   <div>💰 Cambio</div>
+   <div id="change" class="big-total">${money(0)}</div>
+  </div>
+
+  <button class="btn green full" onclick="finishSale()">
+   ✅ CONFIRMAR VENTA
+  </button>
+
+  <button class="btn dark full" style="margin-top:8px" onclick="closeModal()">
+   Cancelar
+  </button>
+ `);
+
+ window.currentTotal=total;
+}
+
+function calcChange(total){
+ const received=Number(document.getElementById("received")?.value||0);
+ const c=Math.max(0,received-total);
+ const el=document.getElementById("change");
+ if(el)el.textContent=money(c);
+}
+
+function finishSale(){
+ const total=window.currentTotal||0;
+ const received=Number(document.getElementById("received")?.value||0);
+ const method=document.getElementById("payMethod")?.value||"Efectivo";
+
+ if(method==="Efectivo"&&received<total){
+  return toast("El dinero recibido no alcanza");
+ }
+
+ let profit=0;
+ const items=[];
+
+ db.cart.forEach(i=>{
+  const p=db.products.find(x=>x.id===i.id);
+  if(!p)return;
+
+  p.stock-=i.qty;
+  profit+=(p.sale-p.cost)*i.qty;
+
+  items.push({
+   id:p.id,
+   name:p.name,
+   qty:i.qty,
+   price:p.sale,
+   cost:p.cost
+  });
+ });
+
+ const sale={
+  id:id("v"),
+  date:today(),
+  time:new Date().toLocaleTimeString("es-HN",{hour:"2-digit",minute:"2-digit"}),
+  items,
+  total,
+  profit,
+  method,
+  received,
+  change:Math.max(0,received-total)
+ };
+
+ db.sales.push(sale);
+ db.cart=[];
+ save();
+ closeModal();
+
+ receipt(sale);
+ render();
+}
+
+function receipt(s){
+ modal(`
+  <h2>🧾 Venta realizada</h2>
+
+  <div id="receipt" class="card">
+   <div style="text-align:center">
+    <h3>MINI SÚPER EITHAN</h3>
+    <div>${s.date} · ${s.time}</div>
+    <hr>
+   </div>
+
+   ${s.items.map(i=>`
+    <div class="row">
+     <span>${esc(i.name)} × ${i.qty}</span>
+     <b class="right">${money(i.price*i.qty)}</b>
+    </div>
+   `).join("")}
+
+   <hr>
+   <div class="big-total">${money(s.total)}</div>
+
+   <div>Método: ${esc(s.method)}</div>
+   ${s.method==="Efectivo"?`
+    <div>Recibido: ${money(s.received)}</div>
+    <div>Cambio: ${money(s.change)}</div>`:""}
+
+   <p style="text-align:center">¡Gracias por su compra! ❤️</p>
+  </div>
+
+  <button class="btn full" onclick="window.print()">🖨️ Imprimir</button>
+
+  <button class="btn green full" style="margin-top:8px" onclick="shareReceipt('${s.id}')">
+   📤 Compartir
+  </button>
+
+  <button class="btn dark full" style="margin-top:8px" onclick="closeModal()">
+   Cerrar
+  </button>
+ `);
+}
+
+async function shareReceipt(id){
+ const s=db.sales.find(x=>x.id===id);
+ if(!s)return;
+
+ const text=[
+  "MINI SÚPER EITHAN",
+  "--------------------",
+  ...s.items.map(i=>`${i.name} x${i.qty} ${money(i.price*i.qty)}`),
+  "--------------------",
+  `TOTAL: ${money(s.total)}`,
+  `Pago: ${s.method}`,
+  "¡Gracias por su compra!"
+ ].join("\n");
+
+ if(navigator.share){
+  try{
+   await navigator.share({title:"Recibo Mini Súper Eithan",text});
+  }catch(e){}
+ }else{
+  await navigator.clipboard?.writeText(text);
+  toast("Recibo copiado");
+ }
+}
+
+function inventory(){
+ return `
+ <div class="row" style="justify-content:space-between">
+  <h2>📦 Inventario</h2>
+  <button class="btn" onclick="productForm()">➕</button>
+ </div>
+
+ <input placeholder="🔎 Buscar producto..." oninput="filterInventory(this.value)">
+
+ <div id="inventoryList" class="card" style="margin-top:12px">
+  ${inventoryCards(db.products)}
+ </div>`;
+}
+
+function inventoryCards(products){
+ if(!products.length)return `<div class="empty">No hay productos.</div>`;
+
+ return products.map(p=>`
+ <div class="product">
+  <div style="flex:1">
+   <div class="product-name">${esc(p.name)}</div>
+   <div class="product-meta">
+    ${esc(p.cat)} · Costo ${money(p.cost)}
+   </div>
+   <div class="product-meta">
+    Precio: <b class="price">${money(p.sale)}</b>
+   </div>
+   <div class="product-meta ${p.stock<=p.min?"low":""}">
+    Stock: <b>${p.stock}</b> · Mínimo: ${p.min}
+   </div>
+  </div>
+
+  <div class="row">
+   <button class="btn dark" onclick="productForm('${p.id}')">✏️</button>
+   <button class="btn red" onclick="deleteProduct('${p.id}')">🗑️</button>
+  </div>
+ </div>
+ `).join("");
+}
+
+function filterInventory(q){
+ q=q.toLowerCase();
+ document.getElementById("inventoryList").innerHTML=
+ inventoryCards(db.products.filter(p=>
+  p.name.toLowerCase().includes(q)||
+  p.cat.toLowerCase().includes(q)
+ ));
+}
+
+function productForm(pid=""){
+ const p=pid?db.products.find(x=>x.id===pid):null;
+
+ modal(`
+  <h2>${p?"✏️ Editar producto":"➕ Nuevo producto"}</h2>
+
+  <label>Nombre del producto</label>
+  <input id="fName" value="${esc(p?.name||"")}">
+
+  <label>Categoría</label>
+  <input id="fCat" value="${esc(p?.cat||"Abarrotes")}">
+
+  <label>Costo</label>
+  <input id="fCost" type="number" inputmode="decimal" value="${p?.cost||0}">
+
+  <label>Precio de venta</label>
+  <input id="fSale" type="number" inputmode="decimal" value="${p?.sale||0}">
+
+  <label>Existencia</label>
+  <input id="fStock" type="number" inputmode="numeric" value="${p?.stock||0}">
+
+  <label>Stock mínimo</label>
+  <input id="fMin" type="number" inputmode="numeric" value="${p?.min||5}">
+
+  <label>Código de barras</label>
+  <input id="fBarcode" value="${esc(p?.barcode||"")}">
+
+  <button class="btn green full" style="margin-top:15px"
+   onclick="saveProduct('${pid}')">
+   💾 GUARDAR PRODUCTO
+  </button>
+
+  <button class="btn dark full" style="margin-top:8px" onclick="closeModal()">
+   Cancelar
+  </button>
+ `);
+}
+
+function saveProduct(pid){
+ const name=document.getElementById("fName").value.trim();
+ if(!name)return toast("Escribe el nombre");
+
+ const data={
+  name,
+  cat:document.getElementById("fCat").value||"Abarrotes",
+  cost:Number(document.getElementById("fCost").value||0),
+  sale:Number(document.getElementById("fSale").value||0),
+  stock:Number(document.getElementById("fStock").value||0),
+  min:Number(document.getElementById("fMin").value||0),
+  barcode:document.getElementById("fBarcode").value.trim()
+ };
+
+ if(pid){
+  const p=db.products.find(x=>x.id===pid);
+  Object.assign(p,data);
+ }else{
+  db.products.push({id:id("p"),...data});
+ }
+
+ save();
+ closeModal();
+ render();
+ toast("Producto guardado");
+}
+
+function deleteProduct(pid){
+ const p=db.products.find(x=>x.id===pid);
+ if(!p)return;
+
+ if(confirm("¿Eliminar "+p.name+"?")){
+  db.products=db.products.filter(x=>x.id!==pid);
+  save();
+  render();
+ }
+}
+
+function purchases(){
+ return `
+ <h2>🛍️ Compras</h2>
+
+ <button class="btn green full" onclick="purchaseForm()">
+  ➕ Registrar compra
+ </button>
+
+ <div class="card">
+ ${
+  db.purchases.length
+  ? db.purchases.slice().reverse().map(x=>`
+   <div class="product">
+    <div>
+     <div class="product-name">${esc(x.product)}</div>
+     <div class="product-meta">${x.date} · ${x.qty} unidades</div>
+    </div>
+    <b>${money(x.total)}</b>
+   </div>
+  `).join("")
+  : `<div class="empty">No hay compras registradas.</div>`
+ }
+ </div>`;
+}
+
+function purchaseForm(){
+ modal(`
+  <h2>🛍️ Registrar compra</h2>
+
+  <label>Producto</label>
+  <select id="buyProduct">
+   ${db.products.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}
+  </select>
+
+  <label>Cantidad</label>
+  <input id="buyQty" type="number" value="1">
+
+  <label>Costo total</label>
+  <input id="buyTotal" type="number" inputmode="decimal">
+
+  <button class="btn green full" style="margin-top:15px" onclick="savePurchase()">
+   💾 Guardar compra
+  </button>
+ `);
+}
+
+function savePurchase(){
+ const pid=document.getElementById("buyProduct").value;
+ const p=db.products.find(x=>x.id===pid);
+ const qty=Number(document.getElementById("buyQty").value||0);
+ const total=Number(document.getElementById("buyTotal").value||0);
+
+ if(!p||qty<=0)return toast("Datos inválidos");
+
+ p.stock+=qty;
+
+ db.purchases.push({
+  id:id("c"),
+  date:today(),
+  product:p.name,
+  qty,
+  total
+ });
+
+ save();
+ closeModal();
+ render();
+ toast("Compra registrada");
+}
+
+function expenses(){
+ const total=db.expenses.reduce((a,x)=>a+x.amount,0);
+
+ return `
+ <h2>💸 Gastos</h2>
+
+ <div class="stat card">
+  <span>Total registrado</span>
+  <b>${money(total)}</b>
+ </div>
+
+ <button class="btn green full" onclick="expenseForm()">
+  ➕ Registrar gasto
+ </button>
+
+ <div class="card">
+ ${
+  db.expenses.length
+  ? db.expenses.slice().reverse().map(x=>`
+   <div class="product">
+    <div>
+     <div class="product-name">${esc(x.name)}</div>
+     <div class="product-meta">${x.date} · ${esc(x.note||"")}</div>
+    </div>
+    <b>${money(x.amount)}</b>
+   </div>
+  `).join("")
+  : `<div class="empty">No hay gastos registrados.</div>`
+ }
+ </div>`;
+}
+
+function expenseForm(){
+ modal(`
+  <h2>💸 Nuevo gasto</h2>
+
+  <label>Concepto</label>
+  <input id="eName" placeholder="Ej. transporte">
+
+  <label>Monto</label>
+  <input id="eAmount" type="number" inputmode="decimal">
+
+  <label>Nota</label>
+  <textarea id="eNote"></textarea>
+
+  <button class="btn green full" onclick="saveExpense()">
+   💾 Guardar
+  </button>
+ `);
+}
+
+function saveExpense(){
+ const name=document.getElementById("eName").value.trim();
+ const amount=Number(document.getElementById("eAmount").value||0);
+ const note=document.getElementById("eNote").value;
+
+ if(!name||amount<=0)return toast("Completa los datos");
+
+ db.expenses.push({
+  id:id("g"),
+  date:today(),
+  name,
+  amount,
+  note
+ });
+
+ save();
+ closeModal();
+ render();
+}
+
+function credits(){
+ const pending=db.credits.filter(x=>!x.paid);
+ const total=pending.reduce((a,x)=>a+x.amount,0);
+
+ return `
+ <h2>👤 Créditos</h2>
+
+ <div class="stat card">
+  <span>Por cobrar</span>
+  <b>${money(total)}</b>
+ </div>
+
+ <button class="btn green full" onclick="creditForm()">
+  ➕ Nuevo crédito
+ </button>
+
+ <div class="card">
+ ${
+  db.credits.length
+  ? db.credits.slice().reverse().map(x=>`
+   <div class="product">
+    <div>
+     <div class="product-name">${esc(x.customer)}</div>
+     <div class="product-meta">${x.date} · ${esc(x.note||"")}</div>
+     <div class="${x.paid?"":"low"}">
+      ${x.paid?"PAGADO":"Pendiente"}
+     </div>
+    </div>
+    <div>
+     <b>${money(x.amount)}</b>
+     ${!x.paid?`
+      <button class="btn green" onclick="payCredit('${x.id}')">
+       Cobrar
+      </button>`:""}
+    </div>
+   </div>
+  `).join("")
+  : `<div class="empty">No hay créditos.</div>`
+ }
+ </div>`;
+}
+
+function creditForm(){
+ modal(`
+  <h2>👤 Nuevo crédito</h2>
+
+  <label>Cliente</label>
+  <input id="crCustomer">
+
+  <label>Monto</label>
+  <input id="crAmount" type="number" inputmode="decimal">
+
+  <label>Nota</label>
+  <input id="crNote">
+
+  <button class="btn green full" onclick="saveCredit()">
+   💾 Guardar crédito
+  </button>
+ `);
+}
+
+function saveCredit(){
+ const customer=document.getElementById("crCustomer").value.trim();
+ const amount=Number(document.getElementById("crAmount").value||0);
+ const note=document.getElementById("crNote").value;
+
+ if(!customer||amount<=0)return toast("Completa los datos");
+
+ db.credits.push({
+  id:id("cr"),
+  date:today(),
+  customer,
+  amount,
+  note,
+  paid:false
+ });
+
+ save();
+ closeModal();
+ render();
+}
+
+function payCredit(idc){
+ const c=db.credits.find(x=>x.id===idc);
+ if(!c)return;
+
+ c.paid=true;
+ c.paidDate=today();
+
+ save();
+ render();
+ toast("Crédito pagado");
+}
+
+function reports(){
+ const sales=db.sales;
+ const total=sales.reduce((a,x)=>a+x.total,0);
+ const profit=sales.reduce((a,x)=>a+x.profit,0);
+ const expenses=db.expenses.reduce((a,x)=>a+x.amount,0);
+ const net=profit-expenses;
+
+ return `
+ <h2>📊 Reportes</h2>
+
+ <div class="grid">
+  <div class="stat">
+   <span>Ventas</span>
+   <b>${money(total)}</b>
+  </div>
+  <div class="stat">
+   <span>Ganancia bruta</span>
+   <b>${money(profit)}</b>
+  </div>
+  <div class="stat">
+   <span>Gastos</span>
+   <b>${money(expenses)}</b>
+  </div>
+  <div class="stat">
+   <span>Ganancia neta</span>
+   <b>${money(net)}</b>
+  </div>
+ </div>
+
+ <div class="card">
+  <h3>Últimas ventas</h3>
+  ${
+   sales.length
+   ? sales.slice().reverse().slice(0,30).map(s=>`
+    <div class="product">
+     <div>
+      <div class="product-name">${s.date} · ${s.time}</div>
+      <div class="product-meta">${s.items.length} productos · ${esc(s.method)}</div>
+     </div>
+     <b>${money(s.total)}</b>
+    </div>
+   `).join("")
+   : `<div class="empty">Todavía no hay ventas.</div>`
+  }
+ </div>
+
+ <div class="card">
+  <h3>📤 Datos</h3>
+  <button class="btn full" onclick="exportData()">Descargar respaldo</button>
+  <button class="btn dark full" style="margin-top:8px" onclick="exportCSV()">Exportar ventas CSV</button>
+ </div>`;
+}
+
+function business(){
+ return `
+ <h2>🏪 Negocio</h2>
+
+ <div class="card">
+  <label>Nombre</label>
+  <input id="bizName" value="${esc(db.settings.business)}">
+
+  <label>Teléfono</label>
+  <input id="bizPhone" value="${esc(db.settings.phone)}">
+
+  <label>Dirección</label>
+  <textarea id="bizAddress">${esc(db.settings.address)}</textarea>
+
+  <button class="btn green full" onclick="saveBusiness()">
+   💾 Guardar información
+  </button>
+ </div>`;
+}
+
+function saveBusiness(){
+ db.settings.business=document.getElementById("bizName").value;
+ db.settings.phone=document.getElementById("bizPhone").value;
+ db.settings.address=document.getElementById("bizAddress").value;
+
+ save();
+ document.getElementById("businessSub").textContent="Punto de Venta";
+ toast("Información guardada");
+}
+
+function more(){
+ return `
+ <h2>☰ Más opciones</h2>
+
+ <div class="card">
+  <button class="btn full" onclick="go('purchases')">🛍️ Compras</button>
+  <button class="btn dark full" style="margin-top:8px" onclick="go('expenses')">💸 Gastos</button>
+  <button class="btn dark full" style="margin-top:8px" onclick="go('credits')">👤 Créditos</button>
+  <button class="btn dark full" style="margin-top:8px" onclick="go('reports')">📊 Reportes</button>
+  <button class="btn dark full" style="margin-top:8px" onclick="go('business')">🏪 Mi negocio</button>
+ </div>
+
+ <div class="card">
+  <h3>⚙️ Datos de la aplicación</h3>
+
+  <div class="notice">
+   Tus productos, ventas y registros se guardan en este dispositivo.
+  </div>
+
+  <button class="btn full" style="margin-top:12px" onclick="exportData()">
+   📤 Crear respaldo
+  </button>
+
+  <button class="btn red full" style="margin-top:8px" onclick="resetData()">
+   ⚠️ Borrar todos los datos
+  </button>
+ </div>`;
+}
+
+function exportData(){
+ const blob=new Blob(
+  [JSON.stringify(db,null,2)],
+  {type:"application/json"}
+ );
+
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="Mini_Super_Eithan_Respaldo.json";
+ a.click();
+ URL.revokeObjectURL(a.href);
+}
+
+function exportCSV(){
+ const rows=[
+  ["Fecha","Hora","Total","Ganancia","Método"]
+ ];
+
+ db.sales.forEach(s=>{
+  rows.push([
+   s.date,
+   s.time,
+   s.total,
+   s.profit,
+   s.method
+  ]);
+ });
+
+ const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+
+ const blob=new Blob(
+  ["\ufeff"+csv],
+  {type:"text/csv;charset=utf-8"}
+ );
+
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="Ventas_Mini_Super_Eithan.csv";
+ a.click();
+}
+
+function resetData(){
+ if(!confirm("Esto borrará productos, ventas, compras, gastos y créditos. ¿Continuar?"))return;
+
+ db=fresh();
+ save();
+ go("home");
+ toast("Datos reiniciados");
+}
+
+function render(){
+ const route=location.hash.replace("#","")||"home";
+
+ let html="";
+
+ if(route==="home")html=home();
+ else if(route==="pos")html=pos();
+ else if(route==="inventory")html=inventory();
+ else if(route==="purchases")html=purchases();
+ else if(route==="expenses")html=expenses();
+ else if(route==="credits")html=credits();
+ else if(route==="reports")html=reports();
+ else if(route==="business")html=business();
+ else html=more();
+
+ document.getElementById("app").innerHTML=html;
+
+ document.querySelectorAll(".bottom button").forEach(b=>{
+  b.classList.toggle(
+   "active",
+   b.dataset.route===route ||
+   (route==="purchases"||route==="expenses"||route==="credits"||
+    route==="reports"||route==="business") && b.dataset.route==="more"
+  );
+ });
+
+ if(route==="pos"){
+  const box=document.getElementById("cartBox");
+  if(box)box.innerHTML=cartBox();
+ }
+}
+
+window.addEventListener("hashchange",render);
+
+document.querySelectorAll(".bottom button").forEach(b=>{
+ b.addEventListener("click",()=>go(b.dataset.route));
+});
+
+render();
+</script>
+
+<style>
+@media print{
+ body{background:white!important;color:black!important}
+ body>*:not(#modal){display:none!important}
+ #modal{display:block!important;position:static!important;background:white!important}
+ .sheet{display:block!important;background:white!important;color:black!important;border:0!important}
+ .sheet .btn{display:none!important}
+}
+</style>
+
+</body>
+</html>
